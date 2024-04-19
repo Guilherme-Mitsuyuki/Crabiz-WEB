@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./static/cadastro.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Cadastro</title>
+</head>
+<body>
+    {% extends "chat.html"%}
+    {% block conteudo%}
+    <div class="formulario">
+        <h2>Formulário de Cadastro</h2>
+        <form action="/" method="post">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+            <div>
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" name="telefone" required>
+            </div>
+            <div>
+                <button type="submit">Cadastrar</button>
+                <a href="/login">você ja tem cadastro?</a>
+            </div>
+        </form>
+    </div>
+{%endblock%}
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

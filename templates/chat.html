@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        background-image:url("./static/img/crabizwal.png");
+        background-repeat: no-repeat;  
+        background-position: center;  
+        background-size: cover;
+        background-color: rgba(0, 0, 0, 0.324);
+        margin: 10px 10px 0px 10px;
+        
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.324);
+        margin: 10px 10px 0px 10px;
+    }
+
+    .conversation {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    .message {
+        background-color: rgb(170, 111, 1); /* cor de fundo para as mensagens enviadas */
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        max-width: 70%;
+    }
+
+    .message.sent {
+        align-self: flex-end;
+        background-color:orange; /* cor de fundo para as mensagens recebidas */
+    }
+
+    input[type="text"] {
+        width: calc(100% - 70px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 20px auto;
+    }
+    
+    input[type="submit"] {
+        width: 70px;
+        padding: 10px;
+        border: none;
+        background-color: #ff9900; /* cor laranja */
+        color: #fff; /* cor branca */
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 0 auto;
+    }
+    body img{
+        width: 150px;
+        height: 150px;
+        position: fixed;
+        top:4%;
+        left:82%;
+    }
+    body h1{
+        color: orange;
+        position: fixed;
+        top:22%;
+        left:83%; 
+        border:2px solid orange;
+        background-color:black;
+    }
+    input[type="submit"]:hover {
+        background-color: #ff8000; /* cor laranja mais escura */
+    }
+    .message.sent{
+        background-color: #ff9900;
+
+    }
+    p{
+        color: white
+    }
+</style>
+</head>
+<body>
+    {%block conteudo%}
+<div class="container"  onchange="mostraMensagem" >
+    <p> oi pessoal</p>
+    <div class="conversation" id="conversation">
+
+        <!-- Exemplo de mensagens -->
+        {% for mensagens in campo_mensagens %}
+        {%endfor%}x'
+        <div class="message sent">Mensagem enviada 1</div>
+        
+        <div class="message received">Mensagem recebida 2</div>
+        <li>{{mensagens}}</li>
+    </div>
+    <div>
+        <input type="text" id="resposta" placeholder="Digite sua mensagem..." required>
+        <button onclick="enviar_cadastro()" type="submit" id="resposta" value="Enviar">Enviar</button>
+    </div>
+    {%endblock%}
+    <img 
+    src="/static/img/Logo.png" alt="">
+    <h1>CRABIZ</h1>
+    <select name="usuario" id="usuario">
+        <option value="telefone"></option>
+    </select>
+   
+</div>
+<script type="text/javascript">
+    function mostraUsuario(){
+        $.ajax({
+            url:"/get/usuarios",
+            type:"GET",
+            success: function(contatos){
+                for(let i=0; i<contatos.length;i++){
+                    let tag='<option value="'+contatos[i]['telefone']+'">'+contatos[i]['Nome']+'</option>'
+                    $("#usuario").append(tag)
+                }
+
+            }
+
+        })
+    }
+    
+    $(document).ready(mostraUsuario)
+
+    function mostraMensagem(){
+        $.ajax({
+            url:"/get/mensagens/" + $("#usuario").val(),
+            type:"GET",
+            success: function(mensagens){
+                console.log("entrei no success")
+                console.log(mensagens.length)
+                $("#conversation").empty() 
+                for(let i=0; i<mensagens.length;i++){
+                    console.log("entrei no for")
+                    tag="<p>"+mensagens[i]['mensagem']+"<p>"
+                    console.log(tag)
+                    $("#conversation").append(tag)
+                }
+                
+            }
+
+        })
+    }
+    $(document).ready(mostraMensagem)
+    setInterval(mostraMensagem,5000);
+</script>
+<script type=text/javascript>
+    function enviar_cadastro(){
+        var dados = {
+            telefone: $("#usuario").val(),
+            mensagem: $("#resposta").val(),
+    }
+    $.ajax({
+        url:"/enviar_via_ajax",
+        type: "POST",
+        data:JSON.stringify(dados),
+        contentType:"application/json",
+        success: function(){    
+            alert("MENSAGEM ENVIADO COM SUCESSO!")
+    },
+        error: function(){
+            alert("ERRO AO ENVIAR!")
+    }
+    })
+    }
+</script>
+</body>
+</html>

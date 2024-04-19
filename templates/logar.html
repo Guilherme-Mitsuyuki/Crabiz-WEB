@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        background-image:url("./static/img/crabizwal.png");
+        background-repeat: no-repeat;  
+        background-position: center;  
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        position: relative; 
+
+    }
+    .formulario{
+        background-color: rgba(243, 171, 37, 0.806);
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        top: 10%;
+        bottom: 50%;
+        
+        
+        
+
+    }
+    </style>
+</head>
+<body>
+    {% extends "chat.html"%}
+    {% block conteudo%}
+    <div class="formulario">
+    <h2>Formulário de login</h2>
+    <form action="/login" method="post">
+        
+        <div>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+        </div>
+        <div>
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" required>
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+            {%endblock%}
+        </div>
+</body>
+</html>
