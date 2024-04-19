@@ -81,4 +81,4 @@ def post_cadastro_ajax():
 
     else:
         return jsonify({'mensagem':'ERRO'}), 500
-app.run(debug=True)
+app.run(host="0.0.0.0", port="8080")
